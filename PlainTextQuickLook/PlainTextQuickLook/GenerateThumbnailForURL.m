@@ -16,22 +16,23 @@ void CancelThumbnailGeneration(void *thisInterface, QLThumbnailRequestRef thumbn
 OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize)
 {
     // To complete your generator please implement the function GenerateThumbnailForURL in GenerateThumbnailForURL.c
-    if (QLThumbnailRequestIsCancelled(thumbnail))
-        return noErr;
-
-    CFBundleRef bundle = QLThumbnailRequestGetGeneratorBundle(thumbnail);
-    CFURLRef bundleURL = CFBundleCopyBundleURL(bundle);
-    LewFileAttributes *file = [LewFileAttributes fileAttributesForItemAtURL:(__bridge NSURL *)(url) bundleURL:(__bridge NSURL *)(bundleURL)];
-    if (!file.isTextFile) {
+    @autoreleasepool{
+        if (QLThumbnailRequestIsCancelled(thumbnail))
+            return noErr;
+        
+        CFBundleRef bundle = QLThumbnailRequestGetGeneratorBundle(thumbnail);
+        CFURLRef bundleURL = CFBundleCopyBundleURL(bundle);
+        LewFileAttributes *file = [LewFileAttributes fileAttributesForItemAtURL:(__bridge NSURL *)(url) bundleURL:(__bridge NSURL *)(bundleURL)];
+        if (!file.isTextFile) {
+            return noErr;
+        }
+        
+        NSDictionary *properties = @{(NSString *)kQLThumbnailPropertyExtensionKey: file.fileBadge};
+        
+        QLThumbnailRequestSetThumbnailWithURLRepresentation(thumbnail, url, kUTTypePlainText, NULL, (__bridge CFDictionaryRef)(properties));
+        
         return noErr;
     }
-
-    NSDictionary *properties = @{(NSString *)kQLThumbnailPropertyExtensionKey: file.fileBadge};
-    
-    QLThumbnailRequestSetThumbnailWithURLRepresentation(thumbnail, url, kUTTypePlainText, NULL, (__bridge CFDictionaryRef)(properties));
-    
-    return noErr;
-
 }
 
 void CancelThumbnailGeneration(void *thisInterface, QLThumbnailRequestRef thumbnail)

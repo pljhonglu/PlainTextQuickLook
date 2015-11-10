@@ -6,43 +6,28 @@
 //  Copyright © 2015年 pljhonglu. All rights reserved.
 //
 
+#define FNExtensionsBlackList @"ExtensionsBlackList"
+#define FNFileNameWhiteList @"FileNameWhiteList"
+#define FNFileNameToBadgeMap @"FileNameToBadgeMap"
+
 #import "LewFileAttributes.h"
 
-
 @interface LewFileAttributes ()
-@property (readwrite) NSURL *url;
-@property (readwrite) BOOL isTextFile;
-@property (readwrite) NSString *mimeType;
-@property (readwrite) NSString *fileExtension;
-@property (readwrite) NSString *fileName;
-
-@property (nonatomic)  NSString *fileBadge;
+@property (nonatomic, assign) BOOL isTextFile;
+@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, copy) NSString *mimeType;
+@property (nonatomic, copy) NSString *fileExtension;
+@property (nonatomic, copy) NSString *fileName;
+@property (nonatomic, copy) NSString *fileBadge;
 
 @end
 
 @implementation LewFileAttributes
 
-- (instancetype)init{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
-
 static NSDictionary<NSString *, NSString*> * MimeTypeToBadgeMap;
-static NSDictionary<NSString *, NSString*> * FileNameToBadgeMap;
+static NSBundle *BUNDLE;
 
 + (instancetype)fileAttributesForItemAtURL:(NSURL *)URL bundleURL:(NSURL *)bundleURL{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSBundle *bundle = [NSBundle bundleWithURL:bundleURL];
-        NSString *mimeTypePath = [bundle pathForResource:@"mimeTypeToBadgeMap" ofType:@"plist"];
-        MimeTypeToBadgeMap = [NSDictionary dictionaryWithContentsOfFile:mimeTypePath];
-        
-        NSString *fileNamePath = [bundle pathForResource:@"filenameToBadgeMap" ofType:@"plist"];
-        FileNameToBadgeMap = [NSDictionary dictionaryWithContentsOfFile:fileNamePath];
-    });
     
     LewFileAttributes *file = [[LewFileAttributes alloc]init];
     file.url = URL;
@@ -50,41 +35,61 @@ static NSDictionary<NSString *, NSString*> * FileNameToBadgeMap;
     file.fileName = [URL lastPathComponent];
     file.isTextFile = NO;
     
+    BUNDLE = [NSBundle bundleWithURL:bundleURL];
+    
     if (!file.fileExtension || file.fileExtension.length == 0) {
-        [FileNameToBadgeMap enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
-            if ([file.fileName.lowercaseString isEqualToString:key]) {
-                *stop = YES;
-                file.fileBadge = obj;
-                file.isTextFile = YES;
-            }
-        }];
-    }else{
-        CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef _Nonnull)(file.fileExtension), NULL);
-        if (UTTypeConformsTo(UTI, kUTTypeText)) {
+        NSString *fileNameWhiteListPath = [BUNDLE pathForResource:FNFileNameWhiteList ofType:@"plist"];
+        NSArray<NSString *> *fileNameWhiteList = [NSArray arrayWithContentsOfFile:fileNameWhiteListPath];
+        if ([fileNameWhiteList containsObject:file.fileName]) {
             file.isTextFile = YES;
         }
-    
-        CFStringRef mimeType = UTTypeCopyPreferredTagWithClass (UTI, kUTTagClassMIMEType);
-        CFRelease(UTI);
-        file.mimeType = (__bridge NSString *)(mimeType);
+    }else{
+        NSString *extensionBlackListPath = [BUNDLE pathForResource:FNExtensionsBlackList ofType:@"plist"];
+        NSArray<NSString *> *extensionBlackList = [NSArray arrayWithContentsOfFile:extensionBlackListPath];
+        if (![extensionBlackList containsObject:file.fileName]) {
+            CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef _Nonnull)(file.fileExtension), NULL);
+            if (UTTypeConformsTo(UTI, kUTTypeText)) {
+                file.isTextFile = YES;
+            }
+            CFStringRef mimeType = UTTypeCopyPreferredTagWithClass (UTI, kUTTagClassMIMEType);
+            CFRelease(UTI);
+            file.mimeType = (__bridge NSString *)(mimeType);
+        }
     }
-    
+
     return file;
 }
 
-
+#pragma mark - getter
 - (NSString *)fileBadge{
     if(!_isTextFile){
         return nil;
     }
-    if (_fileBadge) {
-        return _fileBadge;
-    }
     
-    if (_fileExtension.length < 10) {
-        _fileBadge = _fileExtension;
-    }else if(_mimeType && _mimeType.length > 0){
-        _fileBadge = MimeTypeToBadgeMap[_mimeType];
+    MimeTypeToBadgeMap = @{
+                           @"application/xml": @"xml",
+                           @"text/x-c"       : @"C",
+                           @"text/x-c++"     : @"C++",
+                           @"text/x-shellscript" : @"shell",
+                           @"text/x-php"     : @"php",
+                           @"text/x-python"  : @"python",
+                           @"text/x-perl"    : @"perl",
+                           @"text/x-ruby"    : @"ruby"
+                           };
+    
+    if (!_fileExtension || _fileExtension.length == 0) {
+        NSString *fileNameToBadgeMapPath = [BUNDLE pathForResource:FNFileNameToBadgeMap ofType:@"plist"];
+        NSDictionary<NSString *, NSString *> *fileNameToBadgeMap = [NSDictionary dictionaryWithContentsOfFile:fileNameToBadgeMapPath];
+        _fileBadge = fileNameToBadgeMap[_fileName];
+    }else{
+        if (_fileExtension.length < 10) {
+            _fileBadge = _fileExtension;
+        }else if(_mimeType && _mimeType.length > 0){
+            _fileBadge = MimeTypeToBadgeMap[_mimeType];
+        }
+    }
+    if (!_fileBadge || _fileBadge.length == 0) {
+        _fileBadge = @"unknown";
     }
     
     return _fileBadge;

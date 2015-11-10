@@ -13,8 +13,9 @@
 		FE7EBCF71BF04B68001F421F /* PlainTextQuickLook.qlgenerator in CopyFiles */ = {isa = PBXBuildFile; fileRef = FE7EBCE71BF0363B001F421F /* PlainTextQuickLook.qlgenerator */; };
 		FE7EBCFE1BF07EA6001F421F /* LewFileAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = FE7EBCFC1BF07EA6001F421F /* LewFileAttributes.h */; };
 		FE7EBCFF1BF07EA6001F421F /* LewFileAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7EBCFD1BF07EA6001F421F /* LewFileAttributes.m */; };
-		FE7EBD011BF07F28001F421F /* mimeTypeToBadgeMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD001BF07F28001F421F /* mimeTypeToBadgeMap.plist */; };
-		FE7EBD031BF07FD4001F421F /* filenameToBadgeMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD021BF07FD4001F421F /* filenameToBadgeMap.plist */; };
+		FE7EBD061BF18C35001F421F /* ExtensionsBlackList.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD041BF18C35001F421F /* ExtensionsBlackList.plist */; };
+		FE7EBD071BF18C35001F421F /* FileNameWhiteList.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD051BF18C35001F421F /* FileNameWhiteList.plist */; };
+		FE7EBD091BF19125001F421F /* FileNameToBadgeMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD081BF19125001F421F /* FileNameToBadgeMap.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,8 +39,9 @@
 		FE7EBCF01BF0363B001F421F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE7EBCFC1BF07EA6001F421F /* LewFileAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LewFileAttributes.h; sourceTree = "<group>"; };
 		FE7EBCFD1BF07EA6001F421F /* LewFileAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LewFileAttributes.m; sourceTree = "<group>"; };
-		FE7EBD001BF07F28001F421F /* mimeTypeToBadgeMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mimeTypeToBadgeMap.plist; sourceTree = "<group>"; };
-		FE7EBD021BF07FD4001F421F /* filenameToBadgeMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = filenameToBadgeMap.plist; sourceTree = "<group>"; };
+		FE7EBD041BF18C35001F421F /* ExtensionsBlackList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ExtensionsBlackList.plist; sourceTree = "<group>"; };
+		FE7EBD051BF18C35001F421F /* FileNameWhiteList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FileNameWhiteList.plist; sourceTree = "<group>"; };
+		FE7EBD081BF19125001F421F /* FileNameToBadgeMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FileNameToBadgeMap.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,14 +74,15 @@
 		FE7EBCE91BF0363B001F421F /* PlainTextQuickLook */ = {
 			isa = PBXGroup;
 			children = (
+				FE7EBD081BF19125001F421F /* FileNameToBadgeMap.plist */,
+				FE7EBD051BF18C35001F421F /* FileNameWhiteList.plist */,
+				FE7EBD041BF18C35001F421F /* ExtensionsBlackList.plist */,
 				FE7EBCEA1BF0363B001F421F /* GenerateThumbnailForURL.m */,
 				FE7EBCEC1BF0363B001F421F /* GeneratePreviewForURL.m */,
 				FE7EBCEE1BF0363B001F421F /* main.c */,
 				FE7EBCF01BF0363B001F421F /* Info.plist */,
 				FE7EBCFC1BF07EA6001F421F /* LewFileAttributes.h */,
 				FE7EBCFD1BF07EA6001F421F /* LewFileAttributes.m */,
-				FE7EBD001BF07F28001F421F /* mimeTypeToBadgeMap.plist */,
-				FE7EBD021BF07FD4001F421F /* filenameToBadgeMap.plist */,
 			);
 			path = PlainTextQuickLook;
 			sourceTree = "<group>";
@@ -153,8 +156,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE7EBD011BF07F28001F421F /* mimeTypeToBadgeMap.plist in Resources */,
-				FE7EBD031BF07FD4001F421F /* filenameToBadgeMap.plist in Resources */,
+				FE7EBD091BF19125001F421F /* FileNameToBadgeMap.plist in Resources */,
+				FE7EBD061BF18C35001F421F /* ExtensionsBlackList.plist in Resources */,
+				FE7EBD071BF18C35001F421F /* FileNameWhiteList.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

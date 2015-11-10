@@ -11,13 +11,12 @@
 @interface LewFileAttributes : NSObject
 @property (readonly) NSURL *url;
 
-@property (readonly) BOOL isTextFile;
-@property (readonly) NSString *mimeType;
-@property (readonly) NSString *fileExtension;
-@property (readonly) NSString *fileName;
+@property (nonatomic, assign, readonly) BOOL isTextFile;
+@property (nonatomic, copy, readonly) NSString *mimeType;
+@property (nonatomic, copy, readonly) NSString *fileExtension;
+@property (nonatomic, copy, readonly) NSString *fileName;
+@property (nonatomic, copy, readonly) NSString *fileBadge;
 
 + (instancetype)fileAttributesForItemAtURL:(NSURL *)URL bundleURL:(NSURL *)bundleURL;
 
-
-- (NSString *)fileBadge;
 @end

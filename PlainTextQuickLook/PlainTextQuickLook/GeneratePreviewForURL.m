@@ -17,20 +17,21 @@ void CancelPreviewGeneration(void *thisInterface, QLPreviewRequestRef preview);
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options)
 {
     // To complete your generator please implement the function GeneratePreviewForURL in GeneratePreviewForURL.c
-    if (QLPreviewRequestIsCancelled(preview))
-        return noErr;
-    
-    CFBundleRef bundle = QLPreviewRequestGetGeneratorBundle(preview);
-    CFURLRef bundleURL = CFBundleCopyBundleURL(bundle);
-    LewFileAttributes *file = [LewFileAttributes fileAttributesForItemAtURL:(__bridge NSURL *)(url) bundleURL:(__bridge NSURL *)(bundleURL)];
-
-    if (!file.isTextFile) {
+    @autoreleasepool{
+        if (QLPreviewRequestIsCancelled(preview))
+            return noErr;
+        
+        CFBundleRef bundle = QLPreviewRequestGetGeneratorBundle(preview);
+        CFURLRef bundleURL = CFBundleCopyBundleURL(bundle);
+        LewFileAttributes *file = [LewFileAttributes fileAttributesForItemAtURL:(__bridge NSURL *)(url) bundleURL:(__bridge NSURL *)(bundleURL)];
+        
+        if (!file.isTextFile) {
+            return noErr;
+        }
+        
+        QLPreviewRequestSetURLRepresentation(preview, url, kUTTypePlainText, NULL);
         return noErr;
     }
-
-    QLPreviewRequestSetURLRepresentation(preview, url, kUTTypePlainText, NULL);
-    return noErr;
-
 }
 
 void CancelPreviewGeneration(void *thisInterface, QLPreviewRequestRef preview)
