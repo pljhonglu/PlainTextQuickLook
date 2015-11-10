@@ -16,6 +16,7 @@
 		FE7EBD061BF18C35001F421F /* ExtensionsBlackList.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD041BF18C35001F421F /* ExtensionsBlackList.plist */; };
 		FE7EBD071BF18C35001F421F /* FileNameWhiteList.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD051BF18C35001F421F /* FileNameWhiteList.plist */; };
 		FE7EBD091BF19125001F421F /* FileNameToBadgeMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD081BF19125001F421F /* FileNameToBadgeMap.plist */; };
+		FE7EBD0B1BF1F8C3001F421F /* ExtensionsWhiteList.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7EBD0A1BF1F8C3001F421F /* ExtensionsWhiteList.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +43,7 @@
 		FE7EBD041BF18C35001F421F /* ExtensionsBlackList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ExtensionsBlackList.plist; sourceTree = "<group>"; };
 		FE7EBD051BF18C35001F421F /* FileNameWhiteList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FileNameWhiteList.plist; sourceTree = "<group>"; };
 		FE7EBD081BF19125001F421F /* FileNameToBadgeMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FileNameToBadgeMap.plist; sourceTree = "<group>"; };
+		FE7EBD0A1BF1F8C3001F421F /* ExtensionsWhiteList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ExtensionsWhiteList.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 		FE7EBCE91BF0363B001F421F /* PlainTextQuickLook */ = {
 			isa = PBXGroup;
 			children = (
+				FE7EBD0A1BF1F8C3001F421F /* ExtensionsWhiteList.plist */,
 				FE7EBD081BF19125001F421F /* FileNameToBadgeMap.plist */,
 				FE7EBD051BF18C35001F421F /* FileNameWhiteList.plist */,
 				FE7EBD041BF18C35001F421F /* ExtensionsBlackList.plist */,
@@ -156,6 +159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE7EBD0B1BF1F8C3001F421F /* ExtensionsWhiteList.plist in Resources */,
 				FE7EBD091BF19125001F421F /* FileNameToBadgeMap.plist in Resources */,
 				FE7EBD061BF18C35001F421F /* ExtensionsBlackList.plist in Resources */,
 				FE7EBD071BF18C35001F421F /* FileNameWhiteList.plist in Resources */,
@@ -301,6 +305,7 @@
 				FE7EBCF51BF0363B001F421F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

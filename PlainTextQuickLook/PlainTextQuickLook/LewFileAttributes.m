@@ -9,6 +9,7 @@
 #define FNExtensionsBlackList @"ExtensionsBlackList"
 #define FNFileNameWhiteList @"FileNameWhiteList"
 #define FNFileNameToBadgeMap @"FileNameToBadgeMap"
+#define FNExtensionsWhiteList @"ExtensionsWhiteList"
 
 #import "LewFileAttributes.h"
 
@@ -50,6 +51,12 @@ static NSBundle *BUNDLE;
             CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef _Nonnull)(file.fileExtension), NULL);
             if (UTTypeConformsTo(UTI, kUTTypeText)) {
                 file.isTextFile = YES;
+            }else{
+                NSString *extensionWhiteListPath = [BUNDLE pathForResource:FNExtensionsWhiteList ofType:@"plist"];
+                NSArray<NSString *> *extensionWhiteList = [NSArray arrayWithContentsOfFile:extensionWhiteListPath];
+                if ([extensionWhiteList containsObject:file.fileExtension]) {
+                    file.isTextFile = YES;
+                }
             }
             CFStringRef mimeType = UTTypeCopyPreferredTagWithClass (UTI, kUTTagClassMIMEType);
             CFRelease(UTI);
